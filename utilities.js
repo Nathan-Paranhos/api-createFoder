@@ -13,4 +13,10 @@
         
     }
 
+    const DemandaAnalista = {
+        Analista: String,
+        demanda: {},
+        
+ };
+
 })()
