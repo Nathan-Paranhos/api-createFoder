@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BOT</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Automação monday</a>
+        <img
+          class="sm"
+          src="Assets/logomonday.png"
+          style="display: block; width: auto; height: 3rem"
+          alt="logo-monday"
+        />
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Início</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Sobre</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contato</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+ 
+    <!-- Conteúdo Principal -->
+ 
+    <div class="container mt-5">
+      <h2>O que deseja Fazer?</h2>
+    </div>
+    <div class="container mt-5">
+      <div class="row text-center">
+        <div class="col-md-3">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Destribuir demandas</h5>
+              <p class="card-text">Alocar novas demandas ao time</p>
+              <button class="btn btn-primary" id="js-bot-autoQueue">Automatizar</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Criar Pasta</h5>
+              <p class="card-text">ChatBot Moby/CRM</p>
+              <a href="#" class="btn btn-primary" id="js-create-folder">Acessar</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card text-center">
+            <div class="card-body">
+              <h5 class="card-title">3</h5>
+              <p class="card-text">Descrição breve da opção 3.</p>
+              <a href="#" class="btn btn-primary btn-danger disabled"
+                >Acessar</a
+              >
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Opção 4</h5>
+              <p class="card-text">Descrição breve da opção 4.</p>
+              <a href="#" class="btn btn-primary btn-danger disabled"
+                >Acessar</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+ 
+    <!-- conteúdo dinâmico -->
+    <div class="container mt-5"><h4>Conteúdo alocado</h4></div>
+    <hr>
+      <table class="table table-bordered text-center" id="js-demandas-automaticas">
+      <thead class="table-dark">
+        <tr>
+          <th>#</th>
+          <th>Nome</th>
+          <th>Departamento</th>
+        </tr>
+      </thead>
+ 
+      <!-- Seção 1 - Azul -->
+      <tbody class="table-primary">
+        <tr>
+          <td>1</td>
+          <td>Maria</td>
+          <td>Financeiro</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>João</td>
+          <td>Financeiro</td>
+        </tr>
+      </tbody>
+ 
+      <!-- Seção 2 - Verde -->
+      <tbody class="table-success">
+        <tr>
+          <td>3</td>
+          <td>Fernanda</td>
+          <td>RH</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>Ricardo</td>
+          <td>RH</td>
+        </tr>
+      </tbody>
+ 
+      <!-- Seção 3 - Laranja -->
+      <tbody class="table-warning">
+        <tr>
+          <td>5</td>
+          <td>Luana</td>
+          <td>TI</td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td>Diego</td>
+          <td>TI</td>
+        </tr>
+      </tbody>
+    </table>
+    </footer>
+   
+    <script src="bot_functions/auto_queue.js"></script>
+ 
+    <!-- Script para conectar com o servidor -->
+    <script>
+      // Função para criar todas as pastas
+      async function criarTodasPastas() {
+        const botao = document.getElementById('js-create-all-folders');
+        const textoOriginal = botao.innerHTML;
+        
+        try {
+          // Desabilitar botão e mostrar loading
+          botao.disabled = true;
+          botao.innerHTML = '<span class="spinner-border spinner-border-sm" role="status"></span> Processando...';
+          
+          console.log('🔄 Iniciando criação de pastas...');
+          
+          const response = await fetch('http://localhost:3001/create-folders', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+          
+          const resultado = await response.json();
+          
+          if (resultado.success) {
+            console.log('✅ Pastas criadas com sucesso:', resultado);
+            alert('✅ Pastas criadas com sucesso!\n\n' + resultado.message);
+          } else {
+            console.error('❌ Erro:', resultado.error);
+            alert('❌ Erro ao criar pastas:\n\n' + resultado.error);
+          }
+          
+        } catch (error) {
+          console.error('❌ Erro de conexão:', error);
+          alert('❌ Erro de conexão com o servidor:\n\n' + error.message);
+        } finally {
+          // Reabilitar botão
+          botao.disabled = false;
+          botao.innerHTML = textoOriginal;
+        }
+      }
+      
+      // Conectar evento ao botão quando a página carregar
+      document.addEventListener('DOMContentLoaded', function() {
+        const botao = document.getElementById('js-create-all-folders');
+        if (botao) {
+          botao.addEventListener('click', function(e) {
+            e.preventDefault();
+            criarTodasPastas();
+          });
+        }
+      });
+    </script>
+ 
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
+ 
