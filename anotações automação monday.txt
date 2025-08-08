@@ -1,0 +1,42 @@
+• Etapa: 
+• Assunto: [migração/implantação] Twilio para 360dialog
+• Contato: 
+• Função: 
+• Tel: 
+• Próximo contato:
+• Procedimento realizado:
+
+KIKCOFF:
+
+Fizemos a Reunião de KickOFF com [Responsável e agregados]. No decorrer da mesma, apresentamos o escopo do projeto, das regras de 24 horas de conversação, das templates e sobre não existir mais outro dispositivo para verificar as mensagens.
+
+A demanda se trata de [Origem do número]. <-- criar um checkbox no campo
+
+Orientei a cliente da necessidade da criação das templates e da regularização do portfólio da Meta, foi enviado um e-mail com as sugestões de templates e o conteúdo da apresentação
+
+Próximo contato para validar templates e o portfólio foi marcado para dia [data da apresentação] as [horas da apresentação]
+
+------------------------------------
+
+Triagem / Validação das Templates:
+
+Realizada triagem e validação das mensagens templates enviadas pelo cliente. Avaliadas conformidade com as diretrizes da Meta para aprovação WABA. Templates ajustadas quando necessário e encaminhadas para submissão via 360dialog. Cliente informado sobre o status de aprovação e possíveis ajustes futuros.
+
+Implantação / Migração
+
+Efetuada a implantação do número WABA no ambiente do cliente. Acesso remoto ao servidor para instalação e configuração dos serviços necessários (Electron, mobyPharma e mobyCenter). Realizado cadastro no portal 360dialog, recebimento de código de verificação e geração de token. Configuradas as templates e dados do perfil (logo, endereço, e-mail). Testes de envio e recebimento concluídos com sucesso. Cliente orientado e entrada no período de homologação.
+
+Operação Assistida / Finalização
+
+Realizado acompanhamento pós-implantação junto ao cliente para verificar estabilidade da operação. Sanadas dúvidas pontuais, confirmada fluidez no uso do sistema. Encaminhado termo de aceite para formalização da conclusão do projeto. Cliente orientado sobre o canal de suporte para futuras solicitações. Chamado encerrado com sucesso.
+
+
+----email kickoff---
+
+Bom dia, pessoal. Tudo certo?
+
+Conforme tratamos na nossa reunião, segue link da gravação aqui, também em anexo conta com a apresentação em PPT e a planilha de recomendação das templates.
+
+Qualquer coisa, não hesitem em me chamar!
+
+Best Regards,
