@@ -1,0 +1,41 @@
+{
+  "name": "powershell-server-api",
+  "version": "2.0.0",
+  "description": "API servidor PowerShell para execução remota de comandos",
+  "type": "module",
+  "main": "api-server.js",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "start": "node api-server.js",
+    "dev": "node --watch api-server.js",
+    "build": "echo 'No build step required'"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
+    "express": "^4.18.2",
+    "express-rate-limit": "^8.0.1",
+    "helmet": "^8.1.0",
+    "node-fetch": "^3.3.2",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
+    "winston": "^3.17.0"
+  },
+  "keywords": [
+    "powershell",
+    "server",
+    "api",
+    "remote",
+    "commands",
+    "automation"
+  ],
+  "author": "Fagron Tech",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fagron/powershell-server-api"
+  },
+  "homepage": "https://github.com/fagron/powershell-server-api#readme"
+}
