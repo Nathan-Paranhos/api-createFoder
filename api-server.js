@@ -355,11 +355,66 @@ const globalErrorHandler = (error, req, res, next) => {
 
 /**
  * @swagger
+ * /:
+ *   get:
+ *     summary: Informações da API
+ *     description: Retorna informações básicas sobre a API PowerShell Server
+ *     tags: [General]
+ *     responses:
+ *       200:
+ *         description: Informações da API
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 name:
+ *                   type: string
+ *                   example: "PowerShell Server API"
+ *                 version:
+ *                   type: string
+ *                   example: "2.0.0"
+ *                 environment:
+ *                   type: string
+ *                   example: "production"
+ *                 endpoints:
+ *                   type: array
+ *                   items:
+ *                     type: string
+ *                   example: ["/api/create-folder", "/api/copy-file", "/api/execute-powershell", "/api/check-folder", "/api/status"]
+ *                 documentation:
+ *                   type: string
+ *                   example: "/api-docs"
+ */
+expressApplication.get('/', (req, res) => {
+  res.json({
+    success: true,
+    name: 'PowerShell Server API',
+    version: '2.0.0',
+    environment: CURRENT_ENVIRONMENT,
+    description: 'API servidor PowerShell para execução remota de comandos',
+    endpoints: [
+      '/api/create-folder',
+      '/api/copy-file', 
+      '/api/execute-powershell',
+      '/api/check-folder',
+      '/api/status'
+    ],
+    documentation: '/api-docs',
+    timestamp: new Date().toISOString()
+  });
+});
+
+/**
+ * @swagger
  * /api/create-folder:
  *   post:
- *     summary: Criar pasta via PowerShell
- *     description: Cria uma nova pasta no sistema usando comandos PowerShell
- *     tags: [Gerenciamento de Pastas]
+ *     summary: Criar pasta no sistema
+ *     description: Cria uma nova pasta no caminho especificado
+ *     tags: [Folder Management]
  *     requestBody:
  *       required: true
  *       content:
@@ -372,16 +427,16 @@ const globalErrorHandler = (error, req, res, next) => {
  *               folderPath:
  *                 type: string
  *                 description: Caminho completo da pasta a ser criada
- *                 example: "C:\\Projetos\\NovaPasta"
+ *                 example: "C:\\temp\\nova-pasta"
  *     responses:
  *       200:
  *         description: Pasta criada com sucesso
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/PowerShellResult'
+ *               $ref: '#/components/schemas/Success'
  *       400:
- *         description: Parâmetros inválidos
+ *         description: Erro de validação
  *         content:
  *           application/json:
  *             schema:
