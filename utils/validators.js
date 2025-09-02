@@ -65,11 +65,20 @@ const validators = {
       );
     }
     
-    // Verificar caracteres perigosos
-    const dangerousChars = /[<>:"|?*]/;
+    // Verificar caracteres perigosos (permitir : para drive letters no Windows)
+    const dangerousChars = /[<>"|?*]/;
     if (dangerousChars.test(cleanPath)) {
       throw new ValidationError(
-        `${fieldName} contém caracteres inválidos: < > : " | ? *`,
+        `${fieldName} contém caracteres inválidos: < > " | ? *`,
+        fieldName
+      );
+    }
+    
+    // Verificar se há mais de um : (apenas drive letter permitido)
+    const colonCount = (cleanPath.match(/:/g) || []).length;
+    if (colonCount > 1 || (colonCount === 1 && !cleanPath.match(/^[A-Za-z]:/))) {
+      throw new ValidationError(
+        `${fieldName} contém uso inválido de dois pontos (:)`,
         fieldName
       );
     }

@@ -813,9 +813,12 @@ expressApplication.get('/api/check-folder', (req, res) => {
 expressApplication.get('/api/status', (req, res) => {
   res.json({
     success: true,
-    message: 'API Monday Automation funcionando',
+    message: 'PowerShell Server API funcionando',
+    version: '2.0.0',
+    environment: CURRENT_ENVIRONMENT,
     timestamp: new Date().toISOString(),
-    port: PORT
+    port: SERVER_PORT,
+    uptime: process.uptime()
   });
 });
 
