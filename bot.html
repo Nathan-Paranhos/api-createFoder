@@ -235,29 +235,41 @@
           console.log('🚀 Iniciando sistema inteligente de criação de pastas...');
           
           const folderData = {
-            folderPath: 'C:\\Users\\nasil01\\OneDrive - Fagron\\COM272 - FagronTech - Onboarding\\nova-pasta-' + Date.now()
-          };
+             folderPath: `C:\\Users\\nasil01\\OneDrive - Fagron\\COM272 - FagronTech - Onboarding\\nova-pasta-${Date.now()}`
+           };
+           
+           console.log('📁 Dados da pasta:', folderData);
           
           botao.innerHTML = '<span class="spinner-border spinner-border-sm" role="status"></span> Testando conexões...';
           
           const resultado = await makeSmartApiRequest('/api/create-folder', folderData);
-          
-          if (resultado.success) {
-            console.log('✅ Pasta criada com sucesso:', resultado.data);
-            alert(`✅ Pasta criada com sucesso!\n\n` +
-                  `Método: ${resultado.method}\n` +
-                  `Pasta: ${folderData.folderPath}\n\n` +
-                  `${resultado.data.message || 'Operação concluída'}`);
-          } else {
-            console.error('❌ Todas as conexões falharam:', resultado.error);
-            alert(`❌ Erro: Não foi possível conectar com nenhuma API\n\n` +
-                  `Detalhes: ${resultado.error}\n\n` +
-                  `Possíveis causas:\n` +
-                  `• APIs offline\n` +
-                  `• Problemas de CORS\n` +
-                  `• Proxies bloqueados\n\n` +
-                  `Tente novamente em alguns minutos.`);
-          }
+           
+           if (resultado.success) {
+             // Verificar se a API retornou sucesso
+             if (resultado.data && resultado.data.success) {
+               console.log('✅ Pasta criada com sucesso:', resultado.data);
+               alert(`✅ Pasta criada com sucesso!\n\n` +
+                     `Método: ${resultado.method}\n` +
+                     `Pasta: ${folderData.folderPath}\n\n` +
+                     `${resultado.data.message || 'Operação concluída'}`);
+             } else {
+               // Conexão funcionou mas API retornou erro
+               console.error('❌ Erro da API:', resultado.data);
+               alert(`❌ Erro da API (conexão OK)\n\n` +
+                     `Método: ${resultado.method}\n` +
+                     `Erro: ${resultado.data.error || 'Erro desconhecido'}\n\n` +
+                     `A conexão funcionou mas a API rejeitou a requisição.`);
+             }
+           } else {
+             console.error('❌ Todas as conexões falharam:', resultado.error);
+             alert(`❌ Erro: Não foi possível conectar com nenhuma API\n\n` +
+                   `Detalhes: ${resultado.error}\n\n` +
+                   `Possíveis causas:\n` +
+                   `• APIs offline\n` +
+                   `• Problemas de CORS\n` +
+                   `• Proxies bloqueados\n\n` +
+                   `Tente novamente em alguns minutos.`);
+           }
           
         } catch (error) {
           console.error('❌ Erro inesperado:', error);
