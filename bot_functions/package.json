@@ -1,0 +1,29 @@
+{
+  "name": "monday-automation-bot",
+  "version": "3.2.2",
+  "description": "Sistema de automação Monday.com para criação de pastas",
+  "type": "module",
+  "main": "create_folder.js",
+  "scripts": {
+    "start": "node create_folder.js",
+    "dev": "node --watch create_folder.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "monday",
+    "automation",
+    "bot",
+    "folder",
+    "creation"
+  ],
+  "author": "Fagron",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "node-fetch": "^3.3.2",
+    "winston": "^3.13.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

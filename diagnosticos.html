@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <title>Registro de Diagnóstico</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Tema claro */
+    body { background:#f7f9fc; color:#1f2937; }
+    .card { background:#ffffff; border:1px solid #e5e7eb; box-shadow:0 1px 2px rgba(0,0,0,.03); }
+    .form-control, .form-select { background:#fff; color:#111827; border-color:#d1d5db; }
+    .form-control::placeholder { color:#9ca3af; }
+    pre#saida { background:#ffffff; color:#111827; border:1px solid #e5e7eb; padding:1rem; border-radius:.5rem; }
+  </style>
+</head>
+<body>
+  <div class="container py-4">
+    <h1 class="mb-3">Registro de Diagnóstico</h1>
+    <p class="text-muted mb-4">Preencha os campos e gere JSON/TXT para automatizar seus registros.</p>
+
+    <form id="formDiag" class="needs-validation" novalidate>
+      <!-- Metadados -->
+      <div class="card mb-4">
+        <div class="card-header fw-semibold">Metadados</div>
+        <div class="card-body row g-3">
+          <div class="col-md-4">
+            <label class="form-label" for="etapa">Etapa</label>
+            <select id="etapa" name="etapa" class="form-select" required>
+              <option value="">Selecione...</option>
+              <option selected>Contato Inicial</option>
+              <option>Validação da atualização</option>
+              <option>Configuração</option>
+              <option>Operação Assistida</option>
+              <option>Encerrado</option>
+            </select>
+            <div class="invalid-feedback">Informe a etapa.</div>
+          </div>
+          <div class="col-md-8">
+            <label class="form-label" for="assunto">Assunto</label>
+            <input id="assunto" name="assunto" class="form-control" required
+                   placeholder="Ex.: Alinhamento com o cliente"
+                   value="Alinhamento com o cliente">
+            <div class="invalid-feedback">Informe o assunto.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contato -->
+      <div class="card mb-4">
+        <div class="card-header fw-semibold">Contato</div>
+        <div class="card-body row g-3">
+          <div class="col-md-4">
+            <label class="form-label" for="contato">Nome do contato</label>
+            <input id="contato" name="contato" class="form-control" required value="Claudia">
+            <div class="invalid-feedback">Informe o nome do contato.</div>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label" for="cargo">Cargo/Função</label>
+            <input id="cargo" name="cargo" class="form-control" required value="Proprietária">
+            <div class="invalid-feedback">Informe o cargo/função.</div>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label" for="telefone">Telefone</label>
+            <input id="telefone" name="telefone" class="form-control"
+                   inputmode="numeric" pattern="^\d{10,11}$" title="Apenas números (10 ou 11 dígitos)"
+                   placeholder="Ex.: 12981743997" value="12981743997" required>
+            <div class="invalid-feedback">Informe um telefone válido (10–11 dígitos).</div>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label" for="proximoContato">Próximo contato</label>
+            <input id="proximoContato" name="proximo_contato" type="date" class="form-control" required value="2025-08-14">
+            <div class="invalid-feedback">Informe a data do próximo contato.</div>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label" for="origem">Origem</label>
+            <select id="origem" name="origem" class="form-select" required>
+              <option selected>BOT</option>
+              <option>Manual</option>
+              <option>Outro</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOT / Produto -->
+      <div class="card mb-4">
+        <div class="card-header fw-semibold">BOT / Produto</div>
+        <div class="card-body row g-3">
+          <div class="col-md-4">
+            <label class="form-label" for="modeloBot">Modelo do BOT</label>
+            <select id="modeloBot" name="modelo_bot" class="form-select" required>
+              <option selected>WABA</option>
+              <option>Outro</option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label" for="numeroBot">Número para implantação do BOT</label>
+            <input id="numeroBot" name="numero_bot" class="form-control"
+                   inputmode="numeric" pattern="^\d{10,11}$" title="Apenas números (10 ou 11 dígitos)"
+                   placeholder="Ex.: 12974048600" value="12974048600" required>
+            <div class="invalid-feedback">Informe um número válido (10–11 dígitos).</div>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label" for="produto">Produto do sistema</label>
+            <select id="produto" name="produto" class="form-select" required>
+              <option selected>Moby</option>
+              <option>Fórmula Certa</option>
+              <option>Phusion</option>
+              <option>Outro</option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label" for="filial">Filial</label>
+            <input id="filial" name="filial" class="form-control" value="Matriz" required>
+            <div class="invalid-feedback">Informe a filial.</div>
+          </div>
+          <div class="col-md-8">
+            <label class="form-label" for="descFilial">Descrição da Filial</label>
+            <input id="descFilial" name="descricao_filial" class="form-control" value="1 - Matrz">
+          </div>
+        </div>
+      </div>
+
+      <!-- Procedimento realizado -->
+      <div class="card mb-4">
+        <div class="card-header fw-semibold">Procedimento realizado</div>
+        <div class="card-body">
+          <label class="form-label" for="procedimento">Descrição</label>
+          <textarea id="procedimento" name="procedimento_realizado" class="form-control" rows="8" required>Entrei em contato com a cliente para nos alinharmos referente à implantação do BOT de atendimento. Confirmações:
+- Contato: Claudia
+- Cargo do contato: Proprietária
+- Telefone: 12981743997
+- Modelo do bot: WABA
+- Número para implantação do bot: 12974048600
+- Filial para implantação: Matriz
+- Descrição da Filial: 1 - Matrz
+- Produto do sistema: Moby
+
+Após a confirmação, enviei o link da reunião de apresentação do fluxo.</textarea>
+          <div class="invalid-feedback">Descreva o procedimento realizado.</div>
+
+          <div class="row g-3 mt-2">
+            <div class="col-md-8">
+              <label class="form-label" for="linkReuniao">Link da reunião</label>
+              <input id="linkReuniao" name="link_reuniao" type="url" class="form-control"
+                     value="https://teams.microsoft.com/l/meetup-join/19%3ameeting_NTFkNzMxY2UtMjAyMS00ZTUyLWFhMTMtMmJhZjA2ZWVkNDk3%40thread.v2/0?context=%7B%22Tid%22:%221e73aec5-61da-4df3-bae8-831b2ae193ae%22,%22Oid%22:%2268f03b81-cb22-4b1e-920a-c337f5c1a083%22%7D">
+            </div>
+            <div class="col-md-4 d-flex align-items-end">
+              <a class="btn btn-outline-primary w-100"
+                 href="https://teams.microsoft.com/l/meetup-join/19%3ameeting_NTFkNzMxY2UtMjAyMS00ZTUyLWFhMTMtMmJhZjA2ZWVkNDk3%40thread.v2/0?context=%7B%22Tid%22:%221e73aec5-61da-4df3-bae8-831b2ae193ae%22,%22Oid%22:%2268f03b81-cb22-4b1e-920a-c337f5c1a083%22%7D"
+                 target="_blank" rel="noopener">Abrir link</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Transcrição (opcional) -->
+      <div class="card mb-4">
+        <div class="card-header fw-semibold">Transcrição (opcional)</div>
+        <div class="card-body">
+          <textarea id="transcricao" name="transcricao_chat" class="form-control" rows="8" placeholder="Cole aqui a transcrição do chat">[11:46, 12/08/2025] : (Pedro Ribeiro) - Olá, Claudia. Meu nome é Pedro, faço parte do time Onboarding. Gostaria de falar com você sobre a reunião de apresentação do fluxo de atendimento do BOT, seria possível agora?
+[11:46, 12/08/2025] : (Claudia) - Olá 
+Nos falamos por ligação 
+Ficou para quinta feira às 9h. Isso?
+Obrigada
+[11:47, 12/08/2025] : (Pedro Ribeiro) - Pedro Ribeiro
+
+Olá, exatamente!
+[11:47, 12/08/2025] : (Pedro Ribeiro) - Pedro Ribeiro
+
+eu preciso mandar essa mensagem padronizada para iniciar o atendimento rsrs
+[11:47, 12/08/2025] : (Claudia) - Ok!
+[11:47, 12/08/2025] : (Claudia) - Templates
+[11:47, 12/08/2025] : (Claudia) - Rs
+[11:48, 12/08/2025] : (Pedro Ribeiro) - Pedro Ribeiro
+
+segue o link para nossa reunião
+[11:48, 12/08/2025] : (Pedro Ribeiro) - Pedro Ribeiro
+
+https://teams.microsoft.com/l/meetup-join/19%3ameeting_NTFkNzMxY2UtMjAyMS00ZTUyLWFhMTMtMmJhZjA2ZWVkNDk3%40thread.v2/0?context=%7B%22Tid%22:%221e73aec5-61da-4df3-bae8-831b2ae193ae%22,%22Oid%22:%2268f03b81-cb22-4b1e-920a-c337f5c1a083%22%7D
+[11:48, 12/08/2025] : (Claudia) - Obrigada
+[11:50, 12/08/2025] : (Pedro Ribeiro) - Pedro Ribeiro
+
+eu que agradeço!</textarea>
+        </div>
+      </div>
+
+      <!-- Ações -->
+      <div class="d-flex flex-wrap gap-2 mb-4">
+        <button type="button" class="btn btn-primary" id="btnGerar">Gerar JSON</button>
+        <button type="button" class="btn btn-outline-secondary" id="btnCopiar" disabled>Copiar JSON</button>
+        <button type="button" class="btn btn-outline-success" id="btnBaixar" disabled>Baixar JSON</button>
+        <button type="button" class="btn btn-outline-dark" id="btnBaixarTxt">Baixar TXT</button>
+        <button type="reset" class="btn btn-outline-danger ms-auto">Limpar</button>
+      </div>
+    </form>
+
+    <h5 class="mb-2">Saída JSON</h5>
+    <pre id="saida" class="mb-5" aria-live="polite">{ }</pre>
+  </div>
+
+  <script>
+    // Monta objeto a partir do formulário
+    function buildPayload(form) {
+      return {
+        etapa: form.etapa.value.trim(),
+        assunto: form.assunto.value.trim(),
+        contato: form.contato.value.trim(),
+        cargo_funcao: form.cargo.value.trim(),
+        telefone: form.telefone.value.trim(),
+        proximo_contato: form.proximo_contato.value, // yyyy-mm-dd
+        origem: form.origem.value,
+        modelo_bot: form.modelo_bot.value,
+        numero_bot: form.numero_bot.value.trim(),
+        produto: form.produto.value,
+        filial: form.filial.value.trim(),
+        descricao_filial: form.descricao_filial.value.trim(),
+        procedimento_realizado: form.procedimento_realizado.value.trim(),
+        link_reuniao: form.link_reuniao.value.trim(),
+        transcricao_chat: form.transcricao_chat.value.trim(),
+        criado_em: new Date().toISOString()
+      };
+    }
+
+    // Monta TXT amigável
+    function buildTxt(payload) {
+      const linhas = [
+        `Etapa: ${payload.etapa}`,
+        `Assunto: ${payload.assunto}`,
+        `Contato: ${payload.contato}`,
+        `Cargo/Função: ${payload.cargo_funcao}`,
+        `Telefone: ${payload.telefone}`,
+        `Próximo contato: ${payload.proximo_contato}`,
+        `Origem: ${payload.origem}`,
+        `Modelo do BOT: ${payload.modelo_bot}`,
+        `Número do BOT: ${payload.numero_bot}`,
+        `Produto: ${payload.produto}`,
+        `Filial: ${payload.filial}`,
+        `Descrição da Filial: ${payload.descricao_filial}`,
+        ``,
+        `Procedimento realizado:`,
+        `${payload.procedimento_realizado}`,
+        ``,
+        `Link da reunião:`,
+        `${payload.link_reuniao}`,
+        ``,
+        `Transcrição:`,
+        `${payload.transcricao_chat}`,
+        ``,
+        `Criado em: ${payload.criado_em}`
+      ];
+      return linhas.join("\r\n");
+    }
+
+    // Baixa arquivo com conteúdo e nome
+    function downloadFile(content, filename, mime) {
+      const blob = new Blob([content], { type: mime });
+      const url = URL.createObjectURL(blob);
+      const a = Object.assign(document.createElement('a'), { href: url, download: filename });
+      document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+    }
+
+    // Validação + ações
+    (() => {
+      const form = document.getElementById('formDiag');
+      const saida = document.getElementById('saida');
+
+      form.addEventListener('submit', e => e.preventDefault());
+      Array.from(form.elements).forEach(el => {
+        el.addEventListener('input', () => form.classList.remove('was-validated'));
+      });
+
+      // Gerar JSON
+      document.getElementById('btnGerar').addEventListener('click', () => {
+        form.classList.add('was-validated');
+        if (!form.checkValidity()) return;
+        const payload = buildPayload(form);
+        saida.textContent = JSON.stringify(payload, null, 2);
+        document.getElementById('btnCopiar').disabled = false;
+        document.getElementById('btnBaixar').disabled = false;
+      });
+
+      // Copiar JSON
+      document.getElementById('btnCopiar').addEventListener('click', async () => {
+        const texto = saida.textContent;
+        await navigator.clipboard.writeText(texto);
+      });
+
+      // Baixar JSON
+      document.getElementById('btnBaixar').addEventListener('click', () => {
+        const conteudo = saida.textContent && saida.textContent.trim() !== '{ }'
+          ? saida.textContent
+          : JSON.stringify(buildPayload(form), null, 2);
+        downloadFile(conteudo, `diagnostico_${new Date().toISOString().slice(0,10)}.json`, 'application/json;charset=utf-8');
+      });
+
+      // Baixar TXT (gera do JSON atual ou do formulário)
+      document.getElementById('btnBaixarTxt').addEventListener('click', () => {
+        const payload = (saida.textContent && saida.textContent.trim() !== '{ }')
+          ? JSON.parse(saida.textContent)
+          : buildPayload(form);
+        const txt = buildTxt(payload);
+        downloadFile(txt, `diagnostico_${new Date().toISOString().slice(0,10)}.txt`, 'text/plain;charset=utf-8');
+      });
+    })();
+  </script>
+</body>
+</html>

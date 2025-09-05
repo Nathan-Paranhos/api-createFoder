@@ -43,15 +43,9 @@
         </div>
       </div>
     </nav>
-<<<<<<< HEAD
  
     <!-- Conteúdo Principal -->
  
-=======
-
-    <!-- Conteúdo Principal -->
-
->>>>>>> e757ee6cb282f653857c75e11ee3d74277374bca
     <div class="container mt-5">
       <h2>O que deseja Fazer?</h2>
     </div>
@@ -69,125 +63,51 @@
         <div class="col-md-3">
           <div class="card">
             <div class="card-body">
-<<<<<<< HEAD
               <h5 class="card-title">Criar Pasta</h5>
               <p class="card-text">ChatBot Moby/CRM</p>
-              <a href="#" class="btn btn-primary" id="js-create-folder">Acessar</a>
-=======
-              <h5 class="card-title">2</h5>
-              <p class="card-text">ChatBot Moby/CRM</p>
-              <a href="#" class="btn btn-primary">Acessar</a>
->>>>>>> e757ee6cb282f653857c75e11ee3d74277374bca
+              <button class="btn btn-primary" id="js-create-folder">Automatizar</button>
             </div>
           </div>
         </div>
         <div class="col-md-3">
           <div class="card text-center">
             <div class="card-body">
-<<<<<<< HEAD
-              <h5 class="card-title">3</h5>
-              <p class="card-text">Descrição breve da opção 3.</p>
-              <a href="#" class="btn btn-primary btn-danger disabled"
-                >Acessar</a
-              >
-=======
-              <h5 class="card-title">Criação de todas pasta</h5>
-              <p class="card-text">Criação de pasta</p>
-              <button class="btn btn-primary" id="js-create-folder">Automatizar</button>
->>>>>>> e757ee6cb282f653857c75e11ee3d74277374bca
+              <h5 class="card-title">Gerar Diagóstico</h5>
+              <p class="card-text">Agilizar registro de diagnostico</p>
+              <a href="diagnosticos.html" class="btn btn-primary" >Acessar</a>
+
             </div>
           </div>
         </div>
         <div class="col-md-3">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Opção 4</h5>
-              <p class="card-text">Descrição breve da opção 4.</p>
-              <a href="#" class="btn btn-primary btn-danger disabled"
-                >Acessar</a
+              <h5 class="card-title">Painel Admin</h5>
+              <p class="card-text">Controle total do sistema PM2 e API</p>
+              <a href="http://localhost:3001/admin" target="_blank" class="btn btn-primary"
+                ><i class="fas fa-cogs"></i> Acessar</a
               >
             </div>
           </div>
         </div>
       </div>
     </div>
-<<<<<<< HEAD
- 
-=======
-
->>>>>>> e757ee6cb282f653857c75e11ee3d74277374bca
     <!-- conteúdo dinâmico -->
     <div class="container mt-5"><h4>Conteúdo alocado</h4></div>
     <hr>
       <table class="table table-bordered text-center" id="js-demandas-automaticas">
       <thead class="table-dark">
         <tr>
-<<<<<<< HEAD
-          <th>#</th>
-          <th>Nome</th>
-          <th>Departamento</th>
-        </tr>
-      </thead>
- 
-=======
-          <th>OBS</th>
           <th>Cleinte</th>
-          <th>Analista alocado</th>
+          <th>Analista</th>
+          <th>OBS</th>
         </tr>
       </thead>
 
->>>>>>> e757ee6cb282f653857c75e11ee3d74277374bca
       <!-- Seção 1 - Azul -->
-      <tbody class="table-primary">
-        <tr>
-          <td>1</td>
-          <td>Maria</td>
-          <td>Financeiro</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>João</td>
-          <td>Financeiro</td>
-        </tr>
+      <tbody class="table-primary" id="js-view-table">
+        <!-- dados dinamicos -->
       </tbody>
-<<<<<<< HEAD
- 
-=======
-
->>>>>>> e757ee6cb282f653857c75e11ee3d74277374bca
-      <!-- Seção 2 - Verde -->
-      <tbody class="table-success">
-        <tr>
-          <td>3</td>
-          <td>Fernanda</td>
-          <td>RH</td>
-        </tr>
-        <tr>
-          <td>4</td>
-          <td>Ricardo</td>
-          <td>RH</td>
-        </tr>
-      </tbody>
-<<<<<<< HEAD
- 
-=======
-
->>>>>>> e757ee6cb282f653857c75e11ee3d74277374bca
-      <!-- Seção 3 - Laranja -->
-      <tbody class="table-warning">
-        <tr>
-          <td>5</td>
-          <td>Luana</td>
-          <td>TI</td>
-        </tr>
-        <tr>
-          <td>6</td>
-          <td>Diego</td>
-          <td>TI</td>
-        </tr>
-      </tbody>
-    </table>
-<<<<<<< HEAD
     </footer>
    
     <script src="bot_functions/auto_queue.js"></script>
@@ -206,18 +126,21 @@
           
           console.log('🔄 Iniciando criação de pastas...');
           
-          const response = await fetch('http://localhost:3001/create-folders', {
+          const response = await fetch('https://grifo-api.onrender.com/api/create-folder', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
-            }
+            },
+            body: JSON.stringify({
+              folderPath: 'C:\\Users\\nasil01\\OneDrive - Fagron\\COM272 - FagronTech - Onboarding\\nova-pasta'
+            })
           });
           
           const resultado = await response.json();
           
           if (resultado.success) {
             console.log('✅ Pastas criadas com sucesso:', resultado);
-            alert('✅ Pastas criadas com sucesso!\n\n' + resultado.message);
+            alert('✅ Pastas criadas com sucesso via API externa!\n\n' + (resultado.message || 'Operação concluída'));
           } else {
             console.error('❌ Erro:', resultado.error);
             alert('❌ Erro ao criar pastas:\n\n' + resultado.error);
@@ -225,7 +148,7 @@
           
         } catch (error) {
           console.error('❌ Erro de conexão:', error);
-          alert('❌ Erro de conexão com o servidor:\n\n' + error.message);
+          alert('❌ Erro de conexão com API externa:\n\n' + error.message + '\n\nVerifique sua conexão com a internet.');
         } finally {
           // Reabilitar botão
           botao.disabled = false;
@@ -233,8 +156,60 @@
         }
       }
       
-      // Conectar evento ao botão quando a página carregar
+      // Função para criar pastas individuais
+      async function criarPastas() {
+        const botao = document.getElementById('js-create-folder');
+        const textoOriginal = botao.innerHTML;
+        
+        try {
+          // Desabilitar botão e mostrar loading
+          botao.disabled = true;
+          botao.innerHTML = '<span class="spinner-border spinner-border-sm" role="status"></span> Processando...';
+          
+          console.log('🔄 Iniciando criação de pastas...');
+          
+          const response = await fetch('https://grifo-api.onrender.com/api/create-folder', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              folderPath: 'C:\\Users\\nasil01\\OneDrive - Fagron\\COM272 - FagronTech - Onboarding\\nova-pasta'
+            })
+          });
+          
+          const resultado = await response.json();
+          
+          if (resultado.success) {
+            console.log('✅ Pastas criadas com sucesso:', resultado);
+            alert('✅ Pasta criada com sucesso via API externa!\n\n' + (resultado.message || 'Operação concluída'));
+          } else {
+            console.error('❌ Erro:', resultado.error);
+            alert('❌ Erro ao criar pastas:\n\n' + resultado.error);
+          }
+          
+        } catch (error) {
+          console.error('❌ Erro de conexão:', error);
+          alert('❌ Erro de conexão com API externa:\n\n' + error.message + '\n\nVerifique sua conexão com a internet.');
+        } finally {
+          // Reabilitar botão
+          botao.disabled = false;
+          botao.innerHTML = textoOriginal;
+        }
+      }
+      
+      // Conectar eventos aos botões quando a página carregar
       document.addEventListener('DOMContentLoaded', function() {
+        // Botão criar pastas
+        const botaoCreateFolder = document.getElementById('js-create-folder');
+        if (botaoCreateFolder) {
+          botaoCreateFolder.addEventListener('click', function(e) {
+            e.preventDefault();
+            criarPastas();
+          });
+        }
+        
+        // Botão criar todas as pastas (se existir)
         const botao = document.getElementById('js-create-all-folders');
         if (botao) {
           botao.addEventListener('click', function(e) {
@@ -244,19 +219,11 @@
         }
       });
     </script>
- 
-=======
-
 
     </footer>
     
     <script src="bot_functions/auto_queue.js"></script>
->>>>>>> e757ee6cb282f653857c75e11ee3d74277374bca
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>
-<<<<<<< HEAD
- 
-=======
->>>>>>> e757ee6cb282f653857c75e11ee3d74277374bca

@@ -12,11 +12,4 @@
     if(validaSeExiste('#form-kickoff')){
         
     }
-
-    const DemandaAnalista = {
-        Analista: String,
-        demanda: {},
-        
- };
-
 })()
