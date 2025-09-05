@@ -159,41 +159,109 @@
         }
       }
       
-      // Função para criar pastas individuais
+      // Configuração de APIs e proxies
+      const API_ENDPOINTS = [
+        'https://api-createfoder.onrender.com',
+        'https://grifo-api.onrender.com'
+      ];
+      
+      const CORS_PROXIES = [
+        'https://cors-anywhere.herokuapp.com/',
+        'https://api.allorigins.win/raw?url=',
+        'https://corsproxy.io/?'
+      ];
+      
+      // Sistema inteligente de conexão
+      async function makeSmartApiRequest(endpoint, data) {
+        // Tentar conexão direta com cada API
+        for (const apiBase of API_ENDPOINTS) {
+          try {
+            console.log(`🔄 Tentando conexão direta: ${apiBase}`);
+            const response = await fetch(`${apiBase}${endpoint}`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(data)
+            });
+            
+            if (response.ok) {
+              const result = await response.json();
+              console.log(`✅ Conexão direta funcionou: ${apiBase}`);
+              return { success: true, data: result, method: `Direto: ${apiBase}` };
+            }
+          } catch (error) {
+            console.log(`⚠️ Conexão direta falhou: ${apiBase} - ${error.message}`);
+          }
+        }
+        
+        // Tentar com proxies CORS
+        for (let i = 0; i < CORS_PROXIES.length; i++) {
+          const proxy = CORS_PROXIES[i];
+          
+          for (const apiBase of API_ENDPOINTS) {
+            try {
+              console.log(`🔄 Tentando proxy ${i + 1}: ${proxy} + ${apiBase}`);
+              const url = `${proxy}${encodeURIComponent(apiBase + endpoint)}`;
+              
+              const response = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+              });
+              
+              if (response.ok) {
+                const result = await response.json();
+                console.log(`✅ Proxy ${i + 1} funcionou: ${apiBase}`);
+                return { success: true, data: result, method: `Proxy ${i + 1}: ${apiBase}` };
+              }
+            } catch (error) {
+              console.log(`⚠️ Proxy ${i + 1} falhou: ${apiBase} - ${error.message}`);
+            }
+          }
+        }
+        
+        return { success: false, error: 'Todas as conexões falharam', method: 'Nenhum' };
+      }
+      
+      // Função para criar pastas via API inteligente
       async function criarPastas() {
         const botao = document.getElementById('js-create-folder');
         const textoOriginal = botao.innerHTML;
         
         try {
-          // Desabilitar botão e mostrar loading
+          // Desabilitar botão durante processamento
           botao.disabled = true;
-          botao.innerHTML = '<span class="spinner-border spinner-border-sm" role="status"></span> Processando...';
+          botao.innerHTML = '<span class="spinner-border spinner-border-sm" role="status"></span> Conectando...';
           
-          console.log('🔄 Iniciando criação de pastas...');
+          console.log('🚀 Iniciando sistema inteligente de criação de pastas...');
           
-          const response = await fetch('https://grifo-api.onrender.com/api/create-folder', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              folderPath: 'C:\\Users\\nasil01\\OneDrive - Fagron\\COM272 - FagronTech - Onboarding\\nova-pasta'
-            })
-          });
+          const folderData = {
+            folderPath: 'C:\\Users\\nasil01\\OneDrive - Fagron\\COM272 - FagronTech - Onboarding\\nova-pasta-' + Date.now()
+          };
           
-          const resultado = await response.json();
+          botao.innerHTML = '<span class="spinner-border spinner-border-sm" role="status"></span> Testando conexões...';
+          
+          const resultado = await makeSmartApiRequest('/api/create-folder', folderData);
           
           if (resultado.success) {
-            console.log('✅ Pastas criadas com sucesso:', resultado);
-            alert('✅ Pasta criada com sucesso via API externa!\n\n' + (resultado.message || 'Operação concluída'));
+            console.log('✅ Pasta criada com sucesso:', resultado.data);
+            alert(`✅ Pasta criada com sucesso!\n\n` +
+                  `Método: ${resultado.method}\n` +
+                  `Pasta: ${folderData.folderPath}\n\n` +
+                  `${resultado.data.message || 'Operação concluída'}`);
           } else {
-            console.error('❌ Erro:', resultado.error);
-            alert('❌ Erro ao criar pastas:\n\n' + resultado.error);
+            console.error('❌ Todas as conexões falharam:', resultado.error);
+            alert(`❌ Erro: Não foi possível conectar com nenhuma API\n\n` +
+                  `Detalhes: ${resultado.error}\n\n` +
+                  `Possíveis causas:\n` +
+                  `• APIs offline\n` +
+                  `• Problemas de CORS\n` +
+                  `• Proxies bloqueados\n\n` +
+                  `Tente novamente em alguns minutos.`);
           }
           
         } catch (error) {
-          console.error('❌ Erro de conexão:', error);
-          alert('❌ Erro de conexão com API externa:\n\n' + error.message + '\n\nVerifique sua conexão com a internet.');
+          console.error('❌ Erro inesperado:', error);
+          alert(`❌ Erro inesperado no sistema:\n\n${error.message}`);
         } finally {
           // Reabilitar botão
           botao.disabled = false;
