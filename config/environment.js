@@ -97,7 +97,7 @@ const environmentConfig = {
     server: {
       port: process.env.PORT || 8080,
       host: process.env.HOST || '0.0.0.0',
-      corsOrigins: process.env.CORS_ORIGINS ? process.env.CORS_ORIGINS.split(',') : []
+      corsOrigins: process.env.CORS_ORIGINS ? process.env.CORS_ORIGINS.split(',') : ['*']
     },
     api: {
       requestTimeout: 60000, // 60 segundos
